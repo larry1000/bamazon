@@ -25,7 +25,7 @@ connection.connect(function(err) {
 
 function displayProducts() {
   connection.query(
-    "SELECT item_id, product_name, price, stock_quanity FROM products",
+    "SELECT item_id, product_name, department_name, price, stock_quantity FROM products",
     function(err, res) {
       if (err) throw err;
       console.table(res);
@@ -34,7 +34,7 @@ function displayProducts() {
 }
 function viewInventory() {
   connection.query(
-    "SELECT item_id, product_name, stock_quanity FROM products WHERE stock_quanity < 5",
+    "SELECT item_id, product_name, stock_quantity FROM products WHERE stock_quantity < 5",
     function(err, res) {
       if (err) throw err;
       console.table(res);
@@ -96,14 +96,15 @@ function addInventory() {
           }
         }
 
-        var inventoryUpdated = chosenItem.stock_quanity + parseInt(answer.item);
-        // if (chosenItem.stock_quanity < parseInt(answer.item))
+        var inventoryUpdated =
+          chosenItem.stock_quantity + parseInt(answer.item);
+
         if (isNaN(answer.item) === false) {
           connection.query(
             "UPDATE products SET ? WHERE ?",
             [
               {
-                stock_quanity: inventoryUpdated
+                stock_quantity: inventoryUpdated
               },
               {
                 item_id: chosenItem.item_id
@@ -121,6 +122,61 @@ function addInventory() {
       });
   });
 }
+function addProducts() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "product",
+        message: "What product do you want to add to the inventory?"
+      },
+      {
+        type: "input",
+        name: "department",
+        message: "Which department will the product be in?"
+      },
+      {
+        type: "input",
+        name: "price",
+        message: "What's the price of the product?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        type: "input",
+        name: "quantity",
+        message: "What's the quantity of the product in the inventory?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      }
+    ])
+    .then(function(answer) {
+      connection.query(
+        "INSERT INTO products SET ?",
+        [
+          {
+            product_name: answer.product,
+            department_name: answer.department,
+            price: answer.price,
+            stock_quantity: answer.quantity
+          }
+        ],
+
+        function(error) {
+          if (error) throw err;
+          displayProducts();
+        }
+      );
+    });
+}
 
 // Logic
 switch (input) {
@@ -136,10 +192,10 @@ switch (input) {
     promptManager(process.argv[3]);
 
     break;
-  //   case "do-what-it-says":
-  //     doWhatItSays(process.argv[3]);
+  case "add-new-product":
+    addProducts(process.argv[3]);
 
-  //     break;
+    break;
   default:
     console.log("No input was found");
     break;
