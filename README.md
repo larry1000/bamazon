@@ -1,29 +1,17 @@
 # bamazon
 
-Populate this database with around 10 different products. (i.e. Insert "mock" data rows into this database and table).
-Then create a Node application called bamazonCustomer.js. Running this application will first display all of the items available for sale. Include the ids, names, and prices of products for sale.
-The app should then prompt users with two messages.
 
-The first should ask them the ID of the product they would like to buy.
-The second message should ask how many units of the product they would like to buy.
+1. A node customer CLI app that creates a database and populates the database with 10 products.
+   a. The products have columns of a primary key id, name, department, price, and quantity.
+   <img width="1391" alt="display" src="https://user-images.githubusercontent.com/38018516/47407294-6cdebb00-d728-11e8-828e-47715955ea85.png">
+   b. The customer app displays all of the items for sale and then prompts the customer with 2 questions.
+   c. the first prompt asks the customer the ID of the product that they want to purchase.
+   d. The second prompt asks how many units of the product that they want to purchase.
+   e. Once the order is placed the app checks to see if there are enough of the product to meet the customer's request.
+   f. If there is enough the order goes thru and shows the customer the total cost of the purchase.
 
-Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
-
-If not, the app should log a phrase like Insufficient quantity!, and then prevent the order from going through.
-
-However, if your store does have enough of the product, you should fulfill the customer's order.
-
-This means updating the SQL database to reflect the remaining quantity.
-Once the update goes through, show the customer the total cost of their purchase.
-
-Create a new Node application called bamazonManager.js. Running this application will:
-
-List a set of menu options:
-View Products for Sale
-View Low Inventory
-Add to Inventory
-Add New Product
-If a manager selects View Products for Sale, the app should list every available item: the item IDs, names, prices, and quantities.
-If a manager selects View Low Inventory, then it should list all items with an inventory count lower than five.
-If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
-If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
+2. A node managers CLI app that provides a list of menu options that performs different actions.
+   a. If the manager selects View Products for Sale, the app will list every available item: the item IDs, names, prices, and quantities.
+   b. If the manager selects View Low Inventory, then it will list all items with an inventory count lower than five.
+   c. If the manager selects Add to Inventory, the app will display a prompt that will let the manager "add more" of any item currently in the store.
+   d. If the manager selects Add New Product, the app will allow the manager to add a completely new product to the store.
